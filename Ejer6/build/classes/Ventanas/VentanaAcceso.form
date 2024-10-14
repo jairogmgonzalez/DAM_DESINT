@@ -39,7 +39,7 @@
                       <Component id="jButtonAcceder" min="-2" pref="182" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="16" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -114,17 +114,23 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabelUsuario">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Nombre de usuario:"/>
+            <Property name="text" type="java.lang.String" value="Nombre de usuario (a) :"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldUsuario">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelContrase&#xf1;a">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Contrase&#xf1;a:"/>
+            <Property name="text" type="java.lang.String" value="Contrase&#xf1;a (a) :"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JPasswordField" name="jPasswordFieldContrase&#xf1;a">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

@@ -57,9 +57,13 @@ public class VentanaAcceso extends javax.swing.JFrame {
 
         jPanelLogin.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabelUsuario.setText("Nombre de usuario:");
+        jLabelUsuario.setText("Nombre de usuario (a) :");
 
-        jLabelContraseña.setText("Contraseña:");
+        jTextFieldUsuario.setToolTipText("");
+
+        jLabelContraseña.setText("Contraseña (a) :");
+
+        jPasswordFieldContraseña.setToolTipText("");
 
         javax.swing.GroupLayout jPanelLoginLayout = new javax.swing.GroupLayout(jPanelLogin);
         jPanelLogin.setLayout(jPanelLoginLayout);
@@ -108,7 +112,7 @@ public class VentanaAcceso extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(130, 130, 130)
                         .addComponent(jButtonAcceder, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

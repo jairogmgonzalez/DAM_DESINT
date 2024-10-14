@@ -47,7 +47,7 @@ public class Logica {
     public void acceder() {
         System.out.println("Accediendo...");
         // Se verifica si el usuario y la contraseña son correctos
-        if (ventanaAcceso.getUsuario().equals("usuario") && ventanaAcceso.getContraseña().equals("usuario")) {
+        if (ventanaAcceso.getUsuario().equals("a") && ventanaAcceso.getContraseña().equals("a")) {
             ventanaRegistro = new VentanaRegistro(); // Se inicializa la ventana de registro
             ventanaRegistro.addAñadirHijoAction(e -> añadirHijo()); // Se configura la acción de añadir hijos
             ventanaRegistro.addVerOcultarTablaAction(e -> mostrarOcultarTabla()); // Se configura la acción de Ver/Ocultar la tabla de hijos
