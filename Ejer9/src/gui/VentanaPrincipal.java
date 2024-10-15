@@ -5,9 +5,11 @@ package gui;
 
 import java.awt.Component;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonModel;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -47,23 +49,23 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     // Método para añadir un Listener a jCheckBoxOriginal4
-    public void addCheckBoxOriginal4(ActionListener listener) {
-        jCheckBoxOriginal4.addActionListener(listener);
+    public void addCheckBoxOriginal4(ItemListener listener) {
+        jCheckBoxOriginal4.addItemListener(listener);
     }
 
     // Método para añadir un Listener a jCheckBoxOriginal5
-    public void addCheckBoxOriginal5(ActionListener listener) {
-        jCheckBoxOriginal5.addActionListener(listener);
+    public void addCheckBoxOriginal5(ItemListener listener) {
+        jCheckBoxOriginal5.addItemListener(listener);
     }
 
     // Método para añadir un Listener a jCheckBoxOriginal6
-    public void addCheckBoxOriginal6(ActionListener listener) {
-        jCheckBoxOriginal6.addActionListener(listener);
+    public void addCheckBoxOriginal6(ItemListener listener) {
+        jCheckBoxOriginal6.addItemListener(listener);
     }
 
     // Método para añadir un Listener a jTextFieldOriginal
-    public void addTextFieldOriginal(ActionListener listener) {
-        jTextFieldOriginal.addActionListener(listener);
+    public void addTextFieldOriginal(DocumentListener listener) {
+        jTextFieldOriginal.getDocument().addDocumentListener(listener);
     }
 
     // Método para añadir un Listener a jComboBoxOriginal
@@ -97,19 +99,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     // Método para cambiar el estado de selección de jCheckBoxEspejo4 según el estado del original
     public void checkBoxEspejo4Cambiar() {
         boolean originalSeleccionado = jCheckBoxOriginal4.isSelected();
-        jCheckBoxOriginal4.setSelected(originalSeleccionado);
+        jCheckBoxEspejo4.setSelected(originalSeleccionado);
     }
 
     // Método para cambiar el estado de selección de jCheckBoxEspejo5 según el estado del original
     public void checkBoxEspejo5Cambiar() {
         boolean originalSeleccionado = jCheckBoxOriginal5.isSelected();
-        jCheckBoxOriginal5.setSelected(originalSeleccionado);
+        jCheckBoxEspejo5.setSelected(originalSeleccionado);
     }
 
     // Método para cambiar el estado de selección de jCheckBoxEspejo6 según el estado del original
     public void checkBoxEspejo6Cambiar() {
         boolean originalSeleccionado = jCheckBoxOriginal6.isSelected();
-        jCheckBoxOriginal6.setSelected(originalSeleccionado);
+        jCheckBoxEspejo6.setSelected(originalSeleccionado);
     }
 
     // Método para añadir el texto de jTextFieldOriginal a jTextFieldEspejo
