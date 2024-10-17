@@ -4,6 +4,7 @@
  */
 package gui;
 
+import dto.ContadorPulsaciones;
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -143,7 +144,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     public void mostrarPanelResultados() {
         // Se obtiene un objeto de tipo CardLayout
         CardLayout cardLayout = (CardLayout) jPanelCentral.getLayout();
-        
 
         // Se vacia todos los componentes del panel central antes de añadir uno nuevo
         jPanelCentral.removeAll();
@@ -188,9 +188,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             // Se refresca el panel SubResultados para que los cambios se reflejen
             jPanelCentral.revalidate(); // Se revalida el contenedor para que reconozca los cambios en los componentes
             jPanelCentral.repaint(); // Se vuelve a dibujar el contenedor y sus componentes
-
-            // Se llama al método añadirSelecciones para mostrar en el textArea las jCheckBoxs de Opciones marcadas
-            añadirSelecciones();
         }
     }
 
@@ -200,34 +197,54 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         modeloTabla.setColumnIdentifiers(new String[]{ // Se establecen las columnas que tendra la tabla
             "Botón", "Pulsaciones"
         });
+
+        ContadorPulsaciones contadorPulsaciones = new ContadorPulsaciones();
+        // Se itera sobre cada boton de contadorPulsaciones
+        for (String boton : contadorPulsaciones.getPulsacionesBoton().keySet()) {
+            Integer pulsaciones = contadorPulsaciones.getPulsacionesBoton().get(boton); // Se obtiene las pulsaciones
+            modeloTabla.addRow(new Object[]{boton, null}); // Se añade a la tabla    
+        }
         jTablePulsaciones.setModel(modeloTabla); // Se aplica el modelo de tabla creado al componente jTablePersonas
+
     }
-
-    // Método para añadir un registro a la tabla Pulsaciones con el número de pulsaciones por botón
-    public void añadirRegistroTablaPulsaciones(Map<String, Integer> pulsacionesBoton) {
-        DefaultTableModel modeloTabla = (DefaultTableModel) jTablePulsaciones.getModel();
-
+    
+    // Método para actualizar las pulsaciones de uno de los botones de la tabla
+    public void actualizarPulsaciones(String boton, Integer valor) {
+        // Se itera sobre cada fila de la tabla
+        for (int i = 0; i < jTablePulsaciones.getRowCount(); i++) {
+            if (jTablePulsaciones.getValueAt(i, 0).equals(boton)) { // Se verifica si la fila coincide con la fila del botón pasado por parámetro
+                jTablePulsaciones.setValueAt(valor, i, 1); // Se actualiza el valor de la fila con el parámetro valor
+            }
+        }
     }
 
     // Método para añadir las opciones seleccionadas en el subpanelOpciones del Panel Acciones al textField de Selecciones
-    public void añadirSelecciones() {
+    public String obtenerSelecciones() {
         ArrayList<String> selecciones = new ArrayList<>();
 
+        // Se verifica checkbox a checkbox si está seleccionada y se añade al ArrayList
         if (jCheckBoxLeer.isSelected()) {
             selecciones.add(jCheckBoxLeer.getText());
-        } else if (jCheckBoxEscalada.isSelected()) {
+        }
+        if (jCheckBoxEscalada.isSelected()) {
             selecciones.add(jCheckBoxEscalada.getText());
-        } else if (jCheckBoxEsquiar.isSelected()) {
+        }
+        if (jCheckBoxEsquiar.isSelected()) {
             selecciones.add(jCheckBoxEsquiar.getText());
-        } else if (jCheckBoxSubmarinismo.isSelected()) {
+        }
+        if (jCheckBoxSubmarinismo.isSelected()) {
             selecciones.add(jCheckBoxSubmarinismo.getText());
         }
 
         // Se convierte la lista de selecciones a una cadena
-        String seleccionTexto = String.join("\n", selecciones);
+        String seleccionesTexto = String.join("\n", selecciones);
 
-        // Se establece las selecciones en cadena en el texto en el JTextArea
-        jTextAreaSelecciones.setText(seleccionTexto);
+        return seleccionesTexto; // Se devuelve la cadena con las selecciones
+    }
+    
+    // Método para actualizar el TextPane con las selecciones marcadas
+    public void actualizarTextPane(String selecciones){
+        jTextPaneSelecciones.setText(selecciones); // Se actualiza el texto de jTextPaneSelecicones
     }
 
     @SuppressWarnings("unchecked")
@@ -253,8 +270,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jTablePulsaciones = new javax.swing.JTable();
         jPanelSelecciones = new javax.swing.JPanel();
         jLabelSelecciones = new javax.swing.JLabel();
-        jScrollPaneSelecciones = new javax.swing.JScrollPane();
-        jTextAreaSelecciones = new javax.swing.JTextArea();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextPaneSelecciones = new javax.swing.JTextPane();
         jPanelAcciones = new javax.swing.JPanel();
         jPanelCambiarAcciones = new javax.swing.JPanel();
         jLabelCambiarAccion = new javax.swing.JLabel();
@@ -262,8 +279,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSubAcciones = new javax.swing.JPanel();
         jPanelBotones = new javax.swing.JPanel();
         jButtonB1 = new javax.swing.JButton();
-        jButtonB3 = new javax.swing.JButton();
         jButtonB2 = new javax.swing.JButton();
+        jButtonB3 = new javax.swing.JButton();
         jButtonB4 = new javax.swing.JButton();
         jPanelOpciones = new javax.swing.JPanel();
         jCheckBoxLeer = new javax.swing.JCheckBox();
@@ -278,10 +295,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelVentanaPrincipal.setLayout(new java.awt.BorderLayout());
 
         jPanelOpcionesPaneles.setBackground(new java.awt.Color(0, 0, 0));
+        jPanelOpcionesPaneles.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 5));
 
         jLabelPaneles.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         jLabelPaneles.setForeground(new java.awt.Color(255, 255, 255));
         jLabelPaneles.setText("CAMBIAR PANELES:");
+        jPanelOpcionesPaneles.add(jLabelPaneles);
 
         jRadioButtonAcciones.setBackground(new java.awt.Color(0, 0, 0));
         buttonGroupPaneles.add(jRadioButtonAcciones);
@@ -289,6 +308,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jRadioButtonAcciones.setText("ACCIONES");
         jRadioButtonAcciones.setFocusable(false);
         jRadioButtonAcciones.setName("Acciones"); // NOI18N
+        jPanelOpcionesPaneles.add(jRadioButtonAcciones);
 
         jRadioButtonResultados.setBackground(new java.awt.Color(0, 0, 0));
         buttonGroupPaneles.add(jRadioButtonResultados);
@@ -296,30 +316,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jRadioButtonResultados.setText("RESULTADOS");
         jRadioButtonResultados.setFocusable(false);
         jRadioButtonResultados.setName("Resultados"); // NOI18N
-
-        javax.swing.GroupLayout jPanelOpcionesPanelesLayout = new javax.swing.GroupLayout(jPanelOpcionesPaneles);
-        jPanelOpcionesPaneles.setLayout(jPanelOpcionesPanelesLayout);
-        jPanelOpcionesPanelesLayout.setHorizontalGroup(
-            jPanelOpcionesPanelesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelOpcionesPanelesLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabelPaneles)
-                .addGap(29, 29, 29)
-                .addComponent(jRadioButtonAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jRadioButtonResultados, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39))
-        );
-        jPanelOpcionesPanelesLayout.setVerticalGroup(
-            jPanelOpcionesPanelesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelOpcionesPanelesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelOpcionesPanelesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelPaneles)
-                    .addComponent(jRadioButtonAcciones)
-                    .addComponent(jRadioButtonResultados))
-                .addContainerGap(13, Short.MAX_VALUE))
-        );
+        jPanelOpcionesPaneles.add(jRadioButtonResultados);
 
         jPanelVentanaPrincipal.add(jPanelOpcionesPaneles, java.awt.BorderLayout.PAGE_END);
 
@@ -335,7 +332,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jPanelCambiarResultados.setBackground(new java.awt.Color(51, 255, 51));
         jPanelCambiarResultados.setPreferredSize(new java.awt.Dimension(466, 46));
-        jPanelCambiarResultados.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 40, 10));
+        jPanelCambiarResultados.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 50, 10));
 
         jLabelCambiarResultado.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabelCambiarResultado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -387,7 +384,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addComponent(jLabelPulsaciones)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPanePulsaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
 
         jPanelSubResultados.add(jPanelPulsaciones, "card2");
@@ -397,9 +394,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabelSelecciones.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         jLabelSelecciones.setText("OPCIONES SELECCIONADAS");
 
-        jTextAreaSelecciones.setColumns(20);
-        jTextAreaSelecciones.setRows(5);
-        jScrollPaneSelecciones.setViewportView(jTextAreaSelecciones);
+        jScrollPane1.setViewportView(jTextPaneSelecciones);
 
         javax.swing.GroupLayout jPanelSeleccionesLayout = new javax.swing.GroupLayout(jPanelSelecciones);
         jPanelSelecciones.setLayout(jPanelSeleccionesLayout);
@@ -411,7 +406,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addContainerGap(114, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSeleccionesLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPaneSelecciones, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelSeleccionesLayout.setVerticalGroup(
@@ -419,8 +414,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanelSeleccionesLayout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addComponent(jLabelSelecciones)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPaneSelecciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -455,11 +450,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jButtonB1.setText("B1");
         jPanelBotones.add(jButtonB1);
 
-        jButtonB3.setText("B3");
-        jPanelBotones.add(jButtonB3);
-
         jButtonB2.setText("B2");
         jPanelBotones.add(jButtonB2);
+
+        jButtonB3.setText("B3");
+        jPanelBotones.add(jButtonB3);
 
         jButtonB4.setText("B4");
         jPanelBotones.add(jButtonB4);
@@ -502,7 +497,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCheckBoxSubmarinismo)
                     .addComponent(jCheckBoxEsquiar))
-                .addContainerGap(139, Short.MAX_VALUE))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
 
         jPanelSubAcciones.add(jPanelOpciones, "card3");
@@ -595,9 +590,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelVentanaPrincipal;
     private javax.swing.JRadioButton jRadioButtonAcciones;
     private javax.swing.JRadioButton jRadioButtonResultados;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPanePulsaciones;
-    private javax.swing.JScrollPane jScrollPaneSelecciones;
     private javax.swing.JTable jTablePulsaciones;
-    private javax.swing.JTextArea jTextAreaSelecciones;
+    private javax.swing.JTextPane jTextPaneSelecciones;
     // End of variables declaration//GEN-END:variables
 }
