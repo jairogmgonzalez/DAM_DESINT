@@ -43,6 +43,15 @@ public class Controlador {
         ventanaPrincipal.addButtonB3Action(e -> gestionarPulsaciones("3"));
         // Se configura la acción para contar las pulsaciones del botón 4
         ventanaPrincipal.addButtonB4Action(e -> gestionarPulsaciones("4"));
+        // Se configura la acción para obtener y añadir el checkbox Leer al TextPane
+        ventanaPrincipal.addCheckBoxLeer(e -> gestionarSelecciones());
+        // Se configura la acción para obtener y añadir el checkbox Escalada al TextPane
+        ventanaPrincipal.addCheckBoxEscalada(e -> gestionarSelecciones());
+        // Se configura la acción para obtener y añadir el checkbox Esquiar al TextPane
+        ventanaPrincipal.addCheckBoxEsquiar(e -> gestionarSelecciones());
+        // Se configura la acción para obtener y añadir el checkbox Submarinismo al TextPane
+        ventanaPrincipal.addCheckBoxSubmarinismo(e -> gestionarSelecciones());
+
     }
 
     // Método para cambiar el panel central al de acciones
@@ -53,13 +62,6 @@ public class Controlador {
     // Método para cambiar el panel central al de resultados
     private void mostrarResultados() {
         ventanaPrincipal.mostrarPanelResultados();
-
-        /*
-        Se llama al método obtenerSelecciones y actualizarTextPane de la clase VentanaPrincipal 
-        para obtener las selecciones marcadas y actualizar el TextPane
-         */
-        String selecciones = ventanaPrincipal.obtenerSelecciones();
-        ventanaPrincipal.actualizarTextPane(selecciones);
     }
 
     // Método para cambiar el panel Acciones entre los subpaneles Botones u Opciones
@@ -82,6 +84,16 @@ public class Controlador {
 
         // Se llama al método actualizarPulsaciones de la clase VentanaPrincipal para actualizar la tabla con el nuevo valor
         ventanaPrincipal.actualizarPulsaciones(boton, pulsaciones);
+    }
+
+    // Método para gestionar la selección de Checkboxs y actualizar el TextPane
+    private void gestionarSelecciones() {
+        /*
+        Se llama al método obtenerSelecciones y actualizarTextPane de la clase VentanaPrincipal 
+        para obtener las selecciones marcadas y actualizar el TextPane
+         */
+        String selecciones = ventanaPrincipal.obtenerSelecciones();
+        ventanaPrincipal.actualizarTextPane(selecciones);
     }
 
 }
