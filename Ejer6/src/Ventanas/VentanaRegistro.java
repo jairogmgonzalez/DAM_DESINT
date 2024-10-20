@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JTable;
 import javax.swing.SpinnerListModel;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,6 +21,18 @@ public class VentanaRegistro extends javax.swing.JFrame {
 
     // Constructor de la clase VentanaRegistro
     public VentanaRegistro() {
+        try {
+            // Cambia "Nimbus" por el Look and Feel que desees (Metal, Nimbus, CDE/Motif, GTK+, etc.)
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception ex) {
+            // Si Nimbus no está disponible, puedes establecer el look and feel por defecto.
+            java.util.logging.Logger.getLogger(VentanaRegistro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
         initComponents();
         inicializarNiveles(); // Se inicializa el Spinner de niveles
         inicializarTabla(); // Se inicializa la Tabla de hijos
